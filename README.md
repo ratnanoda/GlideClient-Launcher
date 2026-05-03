@@ -3,6 +3,11 @@
 An unofficial Rust launcher for GlideClient on Minecraft 1.8.9.
 Built with `eframe/egui` (no Electron).
 
+## Run (.exe)
+
+- Download launcher (.exe)
+- Double Client for open launcher
+
 ## Features
 
 - Microsoft account login (device code flow)
