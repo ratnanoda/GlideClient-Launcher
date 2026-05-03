@@ -1,0 +1,32 @@
+[package]
+name = "glide-client-launcher"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0"
+dirs = "6.0"
+eframe = { version = "0.31", default-features = true }
+egui_extras = { version = "0.31", features = ["image"] }
+hex = "0.4"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+md5 = "0.7"
+open = "5.3"
+reqwest = { version = "0.12", default-features = true, features = ["blocking", "json"] }
+rfd = "0.15"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha1 = "0.10"
+uuid = { version = "1.18", features = ["v4"] }
+windows-sys = { version = "0.59", features = [
+    "Win32_Foundation",
+    "Win32_Graphics_Dwm",
+    "Win32_System_SystemInformation",
+    "Win32_UI_WindowsAndMessaging",
+] }
+zip = { version = "2.4", default-features = false, features = ["deflate"] }
+
+[profile.release]
+strip = "symbols"
+lto = "thin"
+codegen-units = 1
