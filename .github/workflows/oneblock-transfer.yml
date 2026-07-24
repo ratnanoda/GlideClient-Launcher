@@ -1,0 +1,34 @@
+name: OneBlock JAR Transfer
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download verified Base64
+        shell: bash
+        run: |
+          curl -fsSL --retry 3 https://paste.rs/5oDqc -o oneblock-2.0.0.jar.b64
+          base64 --decode oneblock-2.0.0.jar.b64 > oneblock-2.0.0.jar
+
+      - name: Verify JAR
+        shell: bash
+        run: |
+          test "$(stat -c%s oneblock-2.0.0.jar)" = '26553'
+          echo 'e40681f54c8214789c9f093730e583a556c7a6dff6edab562661c76d5883dd01  oneblock-2.0.0.jar' | sha256sum --check
+          jar tf oneblock-2.0.0.jar | grep -E 'fabric.mod.json|OneBlockMod.class|world_preset/oneblock.json'
+
+      - name: Upload verified JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: oneblock-2.0.0-jar
+          path: oneblock-2.0.0.jar
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
